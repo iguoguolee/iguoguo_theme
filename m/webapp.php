@@ -67,6 +67,5 @@
 				)));
 			}
 		echo json_encode($return_json);
-		die();
 	}	
 ?>

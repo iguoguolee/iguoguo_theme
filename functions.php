@@ -42,6 +42,7 @@ function ajaxPageLoad()
 		return;
 	}
 }
+add_action('template_redirect','ajaxPageLoad');
 
 function get_webapp_list()
 {
@@ -54,7 +55,6 @@ function get_webapp_list()
 		return;
 	}
 }
-
-add_action('template_redirect','ajaxPageLoad');
+add_action('template_redirect','get_webapp_list');
 
 ?>
