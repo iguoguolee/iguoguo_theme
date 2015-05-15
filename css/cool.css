@@ -1,0 +1,30 @@
+
+#header{background-image:url(images/bg2.jpg);}
+
+#bannerAd{margin-bottom:20px;border:0; background:none;}
+#container #contentBtmAd{padding:0px 45px 20px 90px;margin-top:0px;border:0px;background:#ccc;}
+#contentBtmAd div{float:left;width:250px;margin-right:45px;}
+
+#container.single{padding:0;width:1180px;position:relative;}
+#container #sitePics{text-align:center; height:auto; background:#ccc;padding:50px 20px 30px 20px;font-size: 16px;line-height: 28px;color: #333;}
+#container #sitePics a{display:block;htext-align:center;eight:auto; margin:0 auto;}
+#container #sitePics img{float:none;width:auto;max-width:1000px;height:auto;margin:0 auto;margin-bottom:40px;border:0;}
+#container #site_main_info{height:auto;border:0;padding:20px;}
+#container h1{padding:20px 30px 0px 80px;}
+#container .postmetadata{padding:0px 30px 0px 80px;color:#666;margin-bottom:10px;}
+#container .postmetadata a{padding:0px 5px;}
+#container .comments-template{padding:20px 90px;}
+#container #downBtnWrap{padding-bottom:55px;text-align:center;background:#ccc;}
+#container #downBtnWrap a{color:#fff;}
+
+blockquote { padding: 0px 200px 40px 200px; text-align: left;}
+
+#container #likeButton{top:35px;}
+#container .downloadBtn{top:35px;}
+
+h3{clear: both;}
+
+/*手机酷站*/
+#container #sitePics ul{margin-left:180px;text-align: left;}
+#container #sitePics li{float:left;margin:40px 30px; width:334px; height:665px;background:url(../images/phone.png)left top no-repeat;}
+#container #sitePics li img{width: 295px;height: auto; margin:68px 0px 0px 20px;}

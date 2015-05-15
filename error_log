@@ -1,0 +1,8 @@
+[09-Jun-2011 20:39:19] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[17-Nov-2011 15:09:11] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[17-Nov-2011 15:09:22] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[20-Apr-2012 00:59:28] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[08-Jun-2012 18:01:59] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[15-Aug-2012 03:43:27] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[15-Aug-2012 03:43:55] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1
+[15-Aug-2012 03:44:06] PHP Fatal error:  Call to undefined function  get_header() in /home/iguoguo/public_html/iguoguo/wp-content/themes/iguoguo/index.php on line 1

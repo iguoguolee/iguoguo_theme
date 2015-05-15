@@ -1,0 +1,20 @@
+@media only screen and (min-width:667px) and (max-width:1003px) {
+	.resWrapper{width:667px;}
+}
+@media only screen and (min-width:1330px)  {
+	.resWrapper{width:1330px;}
+}
+@media only screen and (max-width:666px ) {
+	.resWrapper{width:100%;}
+	header .iguoguoMenu{width:100%;left:-100%;}
+	.coList li{width:46%;margin:0 0% 5% 3%; height:230px;}
+	.coList li .imgBox{height:120px;}
+	.coList li .imgBox img{min-height: 120px;}
+	.coList h3{font-size: 16px; height:40px;line-height: 22px;}
+	.coList .focusList{width:100%;margin:0 0 5% 0; height:250px;margin-bottom: 10%; }
+	.coList .listMeta{line-height: 40px;font-size: 12px; padding:0px 10px;}
+	.coList .listMeta span{padding:0px 8px 0px 5px;}
+	.coList .listMeta .iconfont{font-size: 14px;}
+	header .menuBar nav a {width:25%;margin:0px;}
+	#nomoreData{width:70%;}
+}
