@@ -13,8 +13,7 @@
 
     <link rel="stylesheet" type="text/css" href="http://www.iguoguo.net/wp-content/themes/iguoguo/m/css/reset.css"/>.
     <link rel="stylesheet" type="text/css" href="http://www.iguoguo.net/wp-content/themes/iguoguo/m/css/style.css"/>
-    <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/zepto.min.js"></script>
-    <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/swipEvents.js"></script>
+    <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/zepto.js"></script>
     <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/main.js"></script>
 
 </head>
@@ -48,9 +47,9 @@
 			<input type="text" name="keywords" id="keywords"  />
 		</form>
 		<nav class="main_menu">
-			<a href="#" class="current">酷站</a>
-			<a href="#">UI</a>
-			<a href="#">专题</a>
+			<a href="#" class="current" data-catid="1"><span class="iconfont">&#xe69b;</span>酷站</a>
+			<a href="#" data-catid="144"><span class="iconfont">&#xe705;</span>UI</a>
+			<a href="#" data-catid="92"><span class="iconfont">&#xe719;</span>专题</a>
 		</nav>
 	</div>
 	<!--
@@ -72,7 +71,7 @@
 			</ul>
 			<div class="loading hidden" id="list_loading"></div>
 		</div>
-		
+		<div id="overlay"></div>
 	</div>
 	<!--
     	作者：278653847@qq.com

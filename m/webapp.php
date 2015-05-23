@@ -58,9 +58,10 @@
 				foreach($tags as $tag) {
 				   $tagsString = $tagsString . $tag->name . '|'; 
 				 }
-
+				$post_content = get_the_content();
+				preg_replace('|<img.*?src=[\'"](.*?)[\'"].*?>|i','', $post_content, 1);
 				$return_json = array_merge($return_json,array(
-					'content'  => get_the_content(),
+					'content'  => $post_content,
 					'id'       => get_the_id(),
 					'pic'      => get_content_first_image(false),
 					'title'    => get_the_title(),

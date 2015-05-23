@@ -1,19 +1,44 @@
 Zepto(function($){
 	var show_left   = false,
 		shown_right = false;
-	$(".roundNav").on("click",function(){
+
+	//打开关闭左侧菜单
+	$(".roundNav").on("tap",function(){
 		show_left = !show_left;
 		$(this).toggleClass("open");
-		$("#left_side").toggleClass("shown");
-		$("#main,header").toggleClass("show_left");		
+		$("#main,header").toggleClass("show_left");	
+		if(show_left){
+			$("#left_side,#overlay").addClass("shown");
+			$("body").on("touchmove",function(){//禁止拖动
+				return false;
+			})
+		}else{
+			setTimeout(function(){//动画完成后隐藏
+				$("#left_side,#overlay").removeClass("shown");
+			 },500);
+			$("body").off("touchmove")
+		}
+			
 	});
-	$("#user_btn").on("click",function(){
+	//打开关闭右侧菜单
+	$("#user_btn").on("tap",function(){
 		shown_right = !shown_right;
 		$(this).toggleClass("open");
-		$("#right_side").toggleClass("shown");
-		$("#main,header").toggleClass("show_right");		
+		$("#main,header").toggleClass("show_right");
+		if(shown_right){
+			$("#right_side,#overlay").addClass("shown");
+			$("body").on("touchmove",function(){//禁止拖动
+				return false;
+			})
+		}else{
+			setTimeout(function(){
+				$("#right_side,#overlay").removeClass("shown");
+			 },500);
+			$("body").off("touchmove")
+		}		
 	});
 	
+	//展开文章详情页
 	$(".content_list").on("click","li",function(event){
 		
 		var post = {};
@@ -23,22 +48,41 @@ Zepto(function($){
 		showPost(post);
 		event.preventDefault();
 	});
-	$("#back_btn").on("click",function(event){
-		closeDetail();
+	//关闭详情页
+	$("#back_btn").on("tap",function(event){
+		$("#main,header,#details,#detail_header").removeClass("showDetail");
 		event.preventDefault();
 	});
-	
 
-	$(".content_list").html('');
-	if(!checkHash()){
+
+	if(!checkHash()){//判断地址参数
 		loadNewList();
 	}
 
 	$('#details').on("swipeRight",function(e){
-		$('#back_btn').trigger("click");		
-	})
-	
+		$('#back_btn').trigger("tap");		
+	});
+
+	$("#overlay").on("click",function(e){
+		if(show_left) $('.roundNav').trigger("tap");
+		if(show_right)$("#user_btn").trigger("tap");
+	});
+	//导航
+	$(".main_menu").on("tap","a",function(e){
+		var catId = $(this).data("catid");
+		if(config.cat==catId||!catId||catId=='')return;
+		config.cat = catId;
+		config.tag = 0;
+		pager.page = 1;
+
+		$(".content_list").html("");
+		$(this).addClass('current').siblings().removeClass('current');
+		$(".roundNav").trigger("tap");
+		loadNewList();
+
+	});
 });
+//列表滚动加载
 function onListScroll (){
 	var curTop = document.body.scrollTop ;
 		console.warn(curTop);
@@ -63,6 +107,10 @@ var pager = {
 		
 	};
 
+//判断地址栏参数
+//#cat_1: 栏目id:1列表
+//#tag_2: 标签id:2列表
+//#id_1 : 文章id:1内容
 function checkHash()
 {
 	var hash = window.location.hash;
@@ -92,7 +140,8 @@ function checkHash()
 	return true;
 	
 }
-
+//文章详情
+//post: 文章id,或者文章参数Object
 function showPost(post)
 {
 	var postId;
@@ -117,7 +166,7 @@ function showPost(post)
 			$('#post_loading').removeClass('hidden');
 		},
 		success:function(data){
-			parsePostDetail(data).appendTo("#detail_co");
+			parsePostDetail(data).appendTo("#detail_co").find('img').eq(0).css('display','none');
 			$('.detail_toolbar').data("id",postId);
 			$("#likes").html(data.likes);
 			if(data.web_url&&data.is_site){
@@ -128,8 +177,6 @@ function showPost(post)
 				$("#download_btn").prop("href",data.web_url2).show();
 			}
 			$("#comment_btn").show().find("#comments").html(data.comments);
-
-			$("#details_co img").eq(0).css("display","none");
 			$('#post_loading').addClass('hidden');
 
 		}
@@ -137,9 +184,6 @@ function showPost(post)
 	
 }
 
-function closeDetail(){
-	$("#main,header,#details,#detail_header").removeClass("showDetail");
-}
 //加载新的列表内容
 function loadNewList(){
 		$.ajax({
@@ -186,9 +230,12 @@ function parsePost(data)
 function parsePostDetail(data){
 	var detailHtml = "";
 	//data = $.parseJSON(data);
-	if(data.tags&&data.tags.split('|').length>0){
+	var tagsArr = data.tags.split('|');
+
+	if(data.tags&&tagsArr.length>0){
 		detailHtml+='<div id="tags">';
-		$.each(data.tags.split('|'), function(index,tag){
+		$.each(tagsArr, function(index,tag){
+			if(index>=tagsArr.length-1) return;
 			detailHtml+='<a href="tag_"'+tag+'>'+tag+'</a>';
 		});
 		detailHtml+='</div>';

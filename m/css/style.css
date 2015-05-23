@@ -13,22 +13,22 @@ header,#detail_header
 	height:56px;
 	width:100%;
 	background:#ff8ca8;
-	-webkit-transition: all .3s ease;
-	   -moz-transition: all .3s ease;
-	  	 -o-transition: all .3s ease;
-			transition: all .3s ease;
+	-webkit-transition: all 0.5s ease;
+	   -moz-transition: all 0.5s ease;
+	  	 -o-transition: all 0.5s ease;
+			transition: all 0.5s ease;
 }
 	header.show_left {
-	-webkit-transform: translateX(50%);.
-	   -moz-transform: translateX(50%);
-		 -o-transform: translateX(50%);
-			transform: translateX(50%);
+	-webkit-transform: translateX(250px);.
+	   -moz-transform: translateX(250px);
+		 -o-transform: translateX(250px);
+			transform: translateX(250px);
 	}
 	header.show_right {
-	-webkit-transform: translateX(-50%);.
-	   -moz-transform: translateX(-50%);
-		 -o-transform: translateX(-50%);
-			transform: translateX(-50%);
+	-webkit-transform: translateX(-250px);
+	   -moz-transform: translateX(-250px);
+		 -o-transform: translateX(-250px);
+			transform: translateX(-250px);
 	}
 
 	header .roundNav{
@@ -157,29 +157,44 @@ header,#detail_header
 	overflow-x:hidden;
 	overflow-y:auto;
 	-webkit-overflow-scrolling:touch;
-	-webkit-transition: all .3s ease;
-	   -moz-transition: all .3s ease;
-	  	 -o-transition: all .3s ease;
-			transition: all .3s ease;
+	-webkit-transition: all 0.5s ease;
+	   -moz-transition: all 0.5s ease;
+	  	 -o-transition: all 0.5s ease;
+			transition: all 0.5s ease;
 }
 #main{
 	z-index:80;
 }
+	#main #overlay{
+		position: absolute;
+		top:0;
+		right:0;
+		z-index:190;
+		display:none;
+		width:100%;
+		height:100%;
+		background: rgba(0,0,0,0.1);
+	}
+	#main #overlay.shown{
+		display: block;
+	}
 	#main.show_left {
-	-webkit-transform: translateX(50%);.
-	   -moz-transform: translateX(50%);
-		 -o-transform: translateX(50%);
-			transform: translateX(50%);
+	-webkit-transform: translateX(250px);
+	   -moz-transform: translateX(250px);
+		 -o-transform: translateX(250px);
+			transform: translateX(250px);
+		overflow: hidden;
 	}
 	#main.show_right {
-	-webkit-transform: translateX(-50%);.
-	   -moz-transform: translateX(-50%);
-		 -o-transform: translateX(-50%);
-			transform: translateX(-50%);
+	-webkit-transform: translateX(-250px);
+	   -moz-transform: translateX(-250px);
+		 -o-transform: translateX(-250px);
+			transform: translateX(-250px);
+		overflow: hidden;
 	}
 
 #main.showDetail,header.showDetail{
-	-webkit-transform: translateX(-100%);.
+	-webkit-transform: translateX(-100%);
 	   -moz-transform: translateX(-100%);
 		 -o-transform: translateX(-100%);
 			transform: translateX(-100%);
@@ -218,11 +233,11 @@ header,#detail_header
 		color:#666;
 		margin-bottom:10px;
 	}
-	.content_list .listMeta{
+	.listMeta{
 		font-size: 14px;
 		color:#ccc;
 	}
-	.content_list .listMeta span{
+	.listMeta span{
 		padding:0px 5px;
 	}
 
@@ -239,14 +254,29 @@ header,#detail_header
 #details{
 	
 }
+#details .listMeta{margin:15px 0px;}
+#tags{
+	margin:10px 3%;
+}
+	#tags a{
+		display: inline-block;
+		margin:5px 5px;
+		padding:3px 12px;
+		background: #ccc;
+		color:#666;
+	}
 #details img:first{
 	display:none;
 }
 #details img{
+	display: block;
 	max-width: 95%;
 	height:auto;
 	margin:0 auto; 
 	margin-bottom:15px;
+}
+#post_content{
+	min-height: 110%;
 }
 
 #detail_header{
@@ -289,10 +319,14 @@ header,#detail_header
 	position: fixed;
 	z-index: 60;
 	top:0;
-	width:50%;
+	display: none;
+	width:250px;
 	height:100%;
 	background:#444;	
 }
+	.sider_content.shown{
+		display: block;
+	}
 
 #right_side {
 	right:0;
@@ -307,16 +341,26 @@ header,#detail_header
 		padding:0px 15px;
 		line-height: 50px;
 		font-size: 18px;
-		color:#ccc;
+		color:#fff;
 		text-align: left;
 		text-decoration: none;
-		border-bottom:2px solid #555;
+		border-bottom:1px solid #555;
 	}
 		#left_side .main_menu a.current{
-			border-left:5px solid #ff8ca8;
+			border-left:5px solid #DE5879;
+			background:#222;
 		}
 		#left_side .main_menu a:hover{
-			background: #333;
+			background: #222;
+		}
+		#left_side .main_menu .iconfont{
+			font-size: 24px;
+			padding-right:15px;
+			font-weight: 100;
+			color: #999;
+		}
+		#left_side .main_menu a.current .iconfont{
+			color:#DE5879;
 		}
 	#left_side input{
 		width:70%;
