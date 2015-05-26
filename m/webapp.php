@@ -38,7 +38,8 @@
 	
 	if(have_posts()){
 		while(have_posts()){
-			the_post();		
+			the_post();	
+
 			$post_metas = array(
 				"web_url"  => "",
 				"web_url2" => "",
@@ -50,6 +51,8 @@
 			{
 			  $post_metas[$key] = get_post_meta(get_the_id(), $key, true);
 			}
+
+
 			
 			if($pid){
 				$tags = get_the_tags();
@@ -60,11 +63,12 @@
 					//echo $category->cat_name . ''; //当前文章的分类的名称 
 				} 
 
-
 				foreach($tags as $tag) {
 				   $tagsString = $tagsString . $tag->name . '|'; 
 				 }
+				 //echo "1111";
 				$post_content = get_the_content();
+
 				$return_json = array_merge($post_metas,array(
 					'content'  => $post_content,
 					'id'       => get_the_id(),
@@ -74,6 +78,8 @@
 					'tags'     => $tagsString,
 					'catids'   => $cat_IDs
 				));
+				//echo "222";
+				//echo(json_encode($return_json));
 			}else{
 				array_push($return_json,array_merge($post_metas,array(
 					'id'       => get_the_id(),
@@ -84,7 +90,7 @@
 			}
 			
 		}
-		printf(json_encode($return_json)) ;
+		echo(json_encode($return_json)) ;
 		wp_reset_query();
 	}	
 

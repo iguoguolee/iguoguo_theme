@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="http://www.iguoguo.net/wp-content/themes/iguoguo/m/css/style.css"/>
     <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/zepto.js"></script>
     <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/dataLocal.js"></script>
+    <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/modules.js"></script>
     <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/main.js"></script>
 
 </head>
