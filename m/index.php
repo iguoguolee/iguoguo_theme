@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="http://www.iguoguo.net/wp-content/themes/iguoguo/m/css/reset.css"/>.
     <link rel="stylesheet" type="text/css" href="http://www.iguoguo.net/wp-content/themes/iguoguo/m/css/style.css"/>
     <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/zepto.js"></script>
+    <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/dataLocal.js"></script>
     <script src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/js/main.js"></script>
 
 </head>
@@ -62,9 +63,9 @@
         <nav id="user_nav" class="hidden">
             <img src="" />
             <h4></h4>
-            <a href="#"><span class="iconfont">&#xe64c; </span>我的收藏</a>
-            <a href="#"><span class="iconfont">&#xe665; </span>我的作品</a>
-            <a href="#"><span class="iconfont">&#xe659; </span>退出登录</a>
+            <a href="#" action="1"><span class="iconfont">&#xe64c; </span>我的收藏</a>
+            <a href="#" action="2"><span class="iconfont">&#xe665; </span>我的作品</a>
+            <a href="#" action="3"><span class="iconfont">&#xe659; </span>退出登录</a>
         </nav>
 	</div>
 	<!--

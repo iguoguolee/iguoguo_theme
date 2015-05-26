@@ -62,6 +62,7 @@ Zepto(function($){
 
 
 	if(!checkHash()){//判断地址参数
+		console.warn(11);
 		loadNewList();
 	}
 
@@ -110,7 +111,6 @@ Zepto(function($){
 //列表滚动加载
 function onListScroll (){
 	var curTop = $("#main")[0].scrollTop ;
-		console.warn(curTop);
 		if(curTop>=$("#main").height()-$(window).height()-config.disSet)
 		{
 			pager.page++
@@ -132,10 +132,11 @@ function onDetailScroll(){
 var pager = {
 		page:1,
 		totalPage:1	,
-		top:0
+		top:0,
+		numPerpage:8
 	},
 	config = {
-		disSet:50,
+		disSet:20,
 		cat:1,
 		id:0,
 		tag:0
@@ -160,18 +161,18 @@ function checkHash()
 			config.cat = params[1];
 			pager.page =params[2]?params[2]:1;
 			pager.tag = "";
-			loadNewList(pager.page);
+			loadNewList();
 			break;
 		case"#id":
 			config.id = params[1];
 			showPost(config.id);
-			loadNewList(pager.page);
+			loadNewList();
 			break;
 		case "#tag":
 			config.tag = params[1];
 			pager.cat = "";
 			pager.page =params[2]?params[2]:1;
-			loadNewList(pager.page);
+			loadNewList();
 			break;			
 	}
 	return true;
@@ -182,7 +183,9 @@ function checkHash()
 function showPost(post)
 {
 	var postId,
-		postCover="";
+		postCover="",
+		is_cache,
+		cachePost;
 	$("#main,header,#details,#detail_header").addClass("showDetail");
 	if(post.postId&&post.postId!="")
 	{
@@ -194,6 +197,15 @@ function showPost(post)
 	}else{
 		postId = encodeURIComponent(post);
 	}
+
+
+	cachePost = postStorage.getPost(postId);
+	if(cachePost&&cachePost!="")
+	{
+		is_cache = true;
+		showPostContent(cachePost,postCover);
+	}
+
 	$.ajax({
 		type:"get",
 		dataType:"json",
@@ -202,25 +214,42 @@ function showPost(post)
 		async:true,
 		cache:true,
 		beforeSend:function(){
-			$('#post_loading').removeClass('hidden');
+			if(!is_cache)$('#post_loading').removeClass('hidden');
 		},
 		success:function(data){
-			parsePostDetail(data,postCover).appendTo("#detail_co").find('img').eq(0).css('display','none');
-			$('#detail_toolbar').data("id",postId);
-			$("#likes").html(data.likes);
-			$("#comment_btn").show().find("#comments").html(data.comments);
-			$('#post_loading').addClass('hidden');
-
-			pager.top = 0;
-			$("#details").on("scroll",onDetailScroll);
-			$("#detail_toolbar").addClass("showDetail");
+			if(!is_cache){
+				showPostContent(data,postCover);
+			}
+			postStorage.setPost(postId,data);
 		}
 	});
 	
 }
 
+function showPostContent(data,postCover)
+{
+	parsePostDetail(data,postCover).appendTo("#detail_co").find('img').eq(0).css('display','none');
+	//$('#detail_toolbar').data("id",postId);
+	$("#likes").html(data.likes);
+	$("#comment_btn").show().find("#comments").html(data.comments);
+	$('#post_loading').addClass('hidden');
+
+	pager.top = 0;
+	$("#details").on("scroll",onDetailScroll);
+	$("#detail_toolbar").addClass("showDetail");
+}
+
 //加载新的列表内容
 function loadNewList(){
+	var is_cache = false,
+		cacheData = postStorage.getCat(config.cat,pager.page);
+
+	if(cacheData&&cacheData!="")
+	{
+		is_cache = true;
+		showPostList(cacheData);
+	}
+
 		$.ajax({
 				type:"get",
 				dataType:"json",
@@ -228,24 +257,35 @@ function loadNewList(){
 				data:{'page':pager.page,'cat':config.cat,'tag':config.tag,'action':'ajax_webapp'},
 				async:true,
 				beforeSend:function(){
-					$('#list_loading').removeClass('hidden');
+					if(!is_cache) $('#list_loading').removeClass('hidden');
 				},
-				success:function(datas){
-					var newElements = "";
-					$.each(datas,function(index,data){
-						newElements += parsePost(data);
-					});
-					$(newElements).appendTo(".content_list");
-					$("#main").on("scroll",onListScroll);
-					$('#list_loading').addClass('hidden');
+				success:function(datas)
+				{
+					if(is_cache){
+						$(".content_list").find("li[pager='"+pager.page+"']").remove();
+					}
+
+					showPostList(datas);
+					postStorage.setCat(config.cat,pager.page,datas);
 				}
 			});
 	}
 
+function showPostList(datas)
+{
+	var newElements = "";
+		$.each(datas,function(index,data){
+			newElements += parsePost(data);
+		});
+		$(newElements).appendTo(".content_list");
+		$("#main").on("scroll",onListScroll);
+		$('#list_loading').addClass('hidden');
+}
+
 //文章列表中内容解析成HTML
 function parsePost(data)
 {
-	var postHtml = '<li class="clearfix"  id="post_'+data["id"]+'">'+
+	var postHtml = '<li class="clearfix" pager="'+pager.page+'"  id="post_'+data["id"]+'">'+
 		'<div class="imgBox">'+
 			'<a href="?id='+data["id"]+'" title="'+data["title"]+'" target="_blank">'+
 				'<img src="'+data["pic"]+'" title="'+data["title"]+'" >	'+				
@@ -373,7 +413,8 @@ function login(email,psw)
 			if(data.uid==0){
 				err="用户名或密码错误,请重试!"
 			}else{
-				jsSession.login(data.uid,data.username,psw,email);
+				userSession.login(data.uid,data.username,psw,email);
+				checkSession();
 				err = true;
 			}
 		},
@@ -385,64 +426,44 @@ function login(email,psw)
 	return err;
 }
 
-function logout(){
-	jsSession.logout();
-}
-
-/*session 数据本地化*/
-function JsSession(){
-	var sstorage = checkStorageSupport()?window.localStorage:null;
-	this.login = function(id,name,pwd,mail){
-		if(sstorage)
-		{
-			sstorage.setItem("userId",id);
-			sstorage.setItem("userName",name);
-			sstorage.setItem("userPwd",pwd);
-			sstorage.setItem("email",mail)
-			return sstorage;
-		}
-		return false;
-	}
-
-	this.logout = function(){
-		if(sstorage)
-		{
-			sstorage.setItem("userId",0);
-			sstorage.setItem("userName","");
-			sstorage.setItem("userPwd",'');
-
-			return true;
-		}
-		return false;
-	}
-
-	this.getSession = function(){
-		if(sstorage&&sstorage.getItem("userId"))
-		{
-			return sstorage;
-		}
-		return 0;
-	}
-}
-
-var jsSession = new JsSession();
-
 function showUserPanel(){
-	var userPanel = $("#user_nav"),
-		sstorage = jsSession.getSession();
+	var userPanel = $("#user_nav");
 
-	userPanel.find("img").prop("src","http://www.iguoguo.net/u/avatar.php?uid="+sstorage.userId+"&size=big");
-	userPanel.find("h4").text(sstorage.userName);
+	userPanel.find("img").prop("src","http://www.iguoguo.net/u/avatar.php?uid="+userSession.uid()+"&size=big");
+	userPanel.find("h4").text(userSession.uname());
+
+	userPanel.on("touchstart","a",function(e){
+		var action= $(this).attr("action");
+		switch(action){
+			case "1":
+				break;
+			case "2":
+				break;
+			case "3":
+				userSession.logout();
+				checkSession();
+				break;
+			default:
+				break;
+		}
+		e.preventDefault();
+	});
 
 	userPanel.removeClass("hidden");
 	$("#login").addClass("hidden");
 }
 
+function hideUserPanel(){
+	$("#user_nav").addClass("hidden");
+	$("#login").removeClass("hidden");
+}
+
 function checkSession(){
-	var sstorage = jsSession.getSession();
-	if(sstorage.userId&&sstorage.userId!=0)
+	if(userSession.uid()&&userSession.uid()!=0)
 	{
 		showUserPanel();
+	}else{
+		hideUserPanel();
 	}
 }
 
