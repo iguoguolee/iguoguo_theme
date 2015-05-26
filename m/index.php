@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" manifest="cache.manifest">
 <head>
     <meta charset="utf-8">
     <title>爱果果</title>
@@ -24,13 +24,8 @@
         -->
 		<div class="roundNav">
 			<span class="navIcon"></span>
-			<svg x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
-				<circle fill="transparent" stroke="#333333" stroke-width="1" cx="20px" cy="20px" r="18px" stroke-dasharray="150,150" stroke-dashoffset="150" ></circle>
-			</svg>
 		</div>
-
 		<img src="http://www.iguoguo.net/wp-content/themes/iguoguo/m/images/logo.svg" id="logo"/>
-			
 		<div class="user_panel">
 			<div id="user_btn">
 				<span class="iconfont">&#xe686;</span>
@@ -44,7 +39,7 @@
     -->
 	<div id="left_side" class="sider_content">
 		<form action="" method="post">
-			<input type="text" name="keywords" id="keywords"  />
+			<input type="text" name="keywords" id="keywords" disabled  />
 		</form>
 		<nav class="main_menu">
 			<a href="#" class="current" data-catid="1"><span class="iconfont">&#xe69b;</span>酷站</a>
@@ -58,7 +53,19 @@
     	描述：右侧登录区域
     -->
 	<div id="right_side"  class="sider_content">
-		
+        <div id="login">
+            <label for="username">用户名</label><input type="text" name="username" id="username" />
+            <label for="psw">密码</label><input type="password" name="psw" id="psw" />
+            <input type="button" value="登录" id="login_btn" />
+            <div id="error" class="hidden"></div>
+        </div>
+        <nav id="user_nav" class="hidden">
+            <img src="" />
+            <h4></h4>
+            <a href="#"><span class="iconfont">&#xe64c; </span>我的收藏</a>
+            <a href="#"><span class="iconfont">&#xe665; </span>我的作品</a>
+            <a href="#"><span class="iconfont">&#xe659; </span>退出登录</a>
+        </nav>
 	</div>
 	<!--
     	作者：278653847@qq.com
@@ -71,8 +78,9 @@
 			</ul>
 			<div class="loading hidden" id="list_loading"></div>
 		</div>
-		<div id="overlay"></div>
+		
 	</div>
+	<div id="overlay"></div>
 	<!--
     	作者：278653847@qq.com
     	时间：2015-05-11
@@ -88,20 +96,24 @@
     	<div id="detail_title">神州夺宝 H5微信互动游戏</div>
     </div>
     <div id="details">
-    	<div class="listMeta">
-
-		</div>
 		<div id="detail_co">
 			
 		</div>
 		<div class="loading hidden" id="post_loading"></div>
     </div>
     
+    <!--文章详情页底部工具-->
     <div id="detail_toolbar" data_id="" >
-    	<a href="#" id="like_btn">喜欢<span id="likes"></span></a>
-    	<a href="#" id="visit_btn">浏览</a>
-    	<a href="#" id="download_btn">下载</a>
-    	<a href="#" id="comment_btn">评论<span id="comments"></span></a>
+    	<a href="#" id="like_btn"><span class="iconfont">&#xe669;</span>喜欢<span id="likes"></span></a>
+    	<a href="#" id="visit_btn" target="_blank"><span class="iconfont">&#xe6eb;</span>浏览</a>
+    	<a href="#" id="download_btn" target="_blank"><span class="iconfont">&#xe703;</span>下载</a>
+    	<a href="#" id="comment_btn"><span class="iconfont">&#xe667;</span>评论<span id="comments"></span></a>
+    </div>
+
+	<!--网页浏览其-->
+    <div id="web_viewer">
+    	<div id="close_btn"> <span class="iconfont">&#xe646;</span></div>
+    	<iframe src="" scrolling="yes" frameborder="0" allowfullscreen width="100%" height="100%"></iframe>
     </div>
     
 </body>

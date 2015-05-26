@@ -54,19 +54,25 @@
 			if($pid){
 				$tags = get_the_tags();
 				$tagsString = '';
+				$cat_IDs ='';
+				foreach((get_the_category()) as $category) { 
+					$cat_IDs .=$category->cat_ID . '|'; //当前文章的分类的ID 
+					//echo $category->cat_name . ''; //当前文章的分类的名称 
+				} 
+
 
 				foreach($tags as $tag) {
 				   $tagsString = $tagsString . $tag->name . '|'; 
 				 }
 				$post_content = get_the_content();
-				preg_replace('|<img.*?src=[\'"](.*?)[\'"].*?>|i','', $post_content, 1);
-				$return_json = array_merge($return_json,array(
+				$return_json = array_merge($post_metas,array(
 					'content'  => $post_content,
 					'id'       => get_the_id(),
 					'pic'      => get_content_first_image(false),
 					'title'    => get_the_title(),
 					'time'     => get_the_time("20y-m-d"),	
-					'tags'     => $tagsString
+					'tags'     => $tagsString,
+					'catids'   => $cat_IDs
 				));
 			}else{
 				array_push($return_json,array_merge($post_metas,array(
